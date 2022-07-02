@@ -1,4 +1,4 @@
-# pYTHON LISTS AND DATASTRUCTURES
+# PYTHON LISTS AND DATASTRUCTURES
 This project will work with lists and list comprehension that are dynamic lists.
 
 ## Enjoy!!!
