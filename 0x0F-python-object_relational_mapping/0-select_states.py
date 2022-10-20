@@ -1,35 +1,19 @@
 #!/usr/bin/python3
 """
-List all states from a MySQL db on localhost at port 3306
+python script that lists all states from the database hbtn_0e_0_usa
 """
 
-from mysqlman import MySQLMan
-from MySQLdb import Error
-from sys import argv, exit, stderr
+import MySQLdb
+from sys import argv
 
-
-HELP = '{} username password database'.format(argv[0])
-HOST = 'localhost'
-PORT = 3306
-
-
-if __name__ == '__main__':
-    try:
-        mysqlman = MySQLMan(
-            connect=True,
-            user=argv[1],
-            password=argv[2],
-            database=argv[3],
-            host=HOST,
-            port=PORT,
-        )
-    except IndexError:
-        stderr.write('usage: {}\n'.format(HELP))
-        exit(2)
-    except Error as e:
-        stderr.write('{}\n'.format(e.args[1]))
-        exit(1)
-    query = "SELECT id, name FROM states ORDER BY id;"
-    results = mysqlman.query([query, ()])
-    for row in results[0]:
+if __name__ == "__main__":
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3], charset="utf8")
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM states ORDER BY id ASC")
+    rows = cursor.fetchall()
+    for row in rows:
         print(row)
+    cursor.close()
+    db.close()
+
